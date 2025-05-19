@@ -1,33 +1,33 @@
-import { useState } from 'react';
-import Login from './components/Login';
-import Signup from './components/Signup';
+import { motion } from "framer-motion";
+import AuthPage from "./components/AuthPage";
+import illustration from "./assets/undraw_programmer_raqr.svg";
 
 function App() {
+    return (
+        <div className="flex w-full h-screen bg-gray-100 text-black font-sans overflow-hidden relative">
+            <div className="flex-1 flex items-center justify-center">
+                <AuthPage />
+            </div>
 
-  const [isSignup, setIsSignup] = useState(false);
+            {/* Right Panel with Floating Image */}
+            <div className="hidden lg:flex w-1/2 h-full items-center justify-center relative overflow-hidden bg-gradient-to-br from-violet-600 to-indigo-700">
+                <motion.img
+                    src={illustration}
+                    alt="Welcome"
+                    className="max-w-sm w-full h-auto object-contain z-10"
+                    animate={{ y: [0, -20, 0] }}
+                    transition={{
+                        repeat: Infinity,
+                        duration: 6,
+                        ease: "easeInOut",
+                    }}
+                />
 
-
-  return (
-
-    <>
-    <div className='flex w-full h-screen'>
-      
-      <div className={`w-full lg:w-1/2 flex items-center justify-center transition-transform duration-500 ${isSignup ? 'order-2' : 'order-1'}`}>
-        {isSignup ? <Signup setIsSignup={setIsSignup} /> : <Login setIsSignup={setIsSignup} />}
-      </div>
-
-      <div className={`bg-gray-200 relative hidden lg:flex h-full w-1/2 items-center justify-center transition-all duration-500 ${isSignup ? 'order-1' : 'order-2'}`}>
-        <div className={`relative transition-transform duration-500 ${isSignup ? 'transform translate-x-[5%]' : 'transform translate-x-0'}`}>
-          <div className='w-60 h-60 bg-gradient-to-tr from-violet-500 to-pink-500 rounded-full animate-spin'></div>
+                {/* Optional gradient fade at bottom */}
+                <div className="absolute bottom-0 w-full h-1/2 bg-gradient-to-t from-black/30 to-transparent" />
+            </div>
         </div>
-        <div className='w-full h-1/2 absolute bottom-0 bg-white/10 backdrop-blur-lg'></div>
-      </div>
-
-    </div>
-    </>
-
-  );
+    );
 }
 
 export default App;
-

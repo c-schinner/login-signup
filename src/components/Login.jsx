@@ -1,62 +1,83 @@
-import React from 'react'
+import React from "react";
+import { useForm } from "react-hook-form";
 import { FaRegUser } from "react-icons/fa";
 import { RiLockPasswordLine } from "react-icons/ri";
+import FormInput from "../components/FormInput";
 
-const Login = ({setIsSignup}) => {
+const Login = () => {
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+    } = useForm();
+
+    const onSubmit = (data) => {
+        console.log("Login Data:", data);
+        // Add your auth logic here
+    };
+
     return (
-        <div className='bg-white px-10 py-20 rounded-3xl border-2 border-gray-200'>
-            <h1 className='text-5xl font-semibold'>Welcome Back</h1>
-            <p className='font-medium text-lg text-gray-500 mt-4'>Enter your information</p>
-            <div className='mt-8'>
-                <div className='text-lg font-medium flex items-center space-x-2'>
-                    <label>Username</label>
-                    <FaRegUser />
-                </div>
-                <div>
-                    <input className='w-full border-2 border-gray-200 rounded-xl p-4 mt-1 bg-transparent'
-                    placeholder='Enter your Username' />
-                </div>
+        <div className="bg-white px-10 py-12 rounded-3xl shadow-md w-full max-w-md">
+            <h1 className="text-4xl font-bold text-center">Welcome Back</h1>
+            <p className="text-gray-500 text-center mt-2">
+                Enter your login details below
+            </p>
 
-                <div className='mt-4 text-lg font-medium flex items-center space-x-2'>
-                    <label>Password</label>
-                    <RiLockPasswordLine />
-                </div>
-                <div>
-                    <input className='w-full border-2 border-gray-200 rounded-xl p-4 mt-1 bg-transparent' 
-                    placeholder='Enter your Password'
-                    type='password' />
-                </div>
+            <form onSubmit={handleSubmit(onSubmit)} className="mt-8 space-y-5">
+                <FormInput
+                    label="Username"
+                    placeholder="Enter your Username"
+                    icon={FaRegUser}
+                    {...register("username", {
+                        required: "Username is required",
+                    })}
+                />
+                {errors.username && (
+                    <p className="text-red-500 text-sm">
+                        {errors.username.message}
+                    </p>
+                )}
 
-                    <div>
-                        <input 
-                        type='checkbox'
-                        id='remember'
-                        className='mr-2 mt-8 mb-4' />
-                        <label 
-                        for='remember'
-                        className='font-medium text-base'>
-                            Remember Username
-                            </label>
-                    </div>
+                <FormInput
+                    label="Password"
+                    type="password"
+                    placeholder="Enter your Password"
+                    icon={RiLockPasswordLine}
+                    {...register("password", {
+                        required: "Password is required",
+                    })}
+                />
+                {errors.password && (
+                    <p className="text-red-500 text-sm">
+                        {errors.password.message}
+                    </p>
+                )}
 
-                <div className='mt-8 flex items-center justify-between'>
-                    <button className='hover:scale-[1.05] font-medium text-base text-violet-500'>
+                <div className="flex items-center justify-between text-sm text-gray-600">
+                    <label className="flex items-center">
+                        <input
+                            type="checkbox"
+                            className="mr-2 accent-blue-500"
+                        />
+                        Remember me
+                    </label>
+                    <button
+                        type="button"
+                        className="text-blue-500 hover:underline"
+                    >
                         Forgot password?
                     </button>
-                    <button 
-                    onClick={() => setIsSignup(true)}
-                    className='hover:scale-[1.05] font-medium text-base text-blue-500'>
-                        Register
-                    </button>
                 </div>
-                <div className='mt-8 flex justify-center'>
-                    <button className='active:scale-[.97] inline-block border-2 rounded-md border-blue-500 bg-blue-500 text-white px-3 py-1 text-lg font-semibold'>
-                        Sign in
-                    </button>
-                </div>
-            </div>     
-        </div>
-    )
-}
 
-export default Login
+                <button
+                    type="submit"
+                    className="w-full bg-blue-500 hover:bg-blue-600 transition text-white py-3 rounded-lg font-semibold"
+                >
+                    Sign In
+                </button>
+            </form>
+        </div>
+    );
+};
+
+export default Login;
